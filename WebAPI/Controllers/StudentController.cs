@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
             return await _context.Students
                 .Include( c => c.Course)
                 .Include( d => d.Department)
-                .Include( s => s.Sanctions)
+                .Include( us => us.Sanctions).ThenInclude(s => s.Sanction)
                 .Include( s => s.Section).ToListAsync();
         }
         [HttpGet]
@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
             var dept = await _context.Students
                 .Include(c => c.Course)
                 .Include(d => d.Department)
-                .Include(s => s.Sanctions)
+                .Include(us => us.Sanctions).ThenInclude(s => s.Sanction)
                 .Include(s => s.Section).FirstOrDefaultAsync(u => u.StudentId == id);
             if (dept == null)
             {

@@ -20,7 +20,7 @@ namespace WebAPI.Models
         //[NotMapped]
         public SectionModel Section { get; set; } = new SectionModel();
         //[NotMapped]
-        public List<SanctionModel>? Sanctions { get; set;}
+        public List<UserSanctionModel> Sanctions { get; set; } = new List<UserSanctionModel>();
         public Enums.Enums.YearLevel YearLevel { get; set; }
 
     }

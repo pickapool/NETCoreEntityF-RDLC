@@ -52,6 +52,19 @@ namespace WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Sanctions",
+                columns: table => new
+                {
+                    SanctionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SanctionName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sanctions", x => x.SanctionId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sections",
                 columns: table => new
                 {
@@ -62,20 +75,6 @@ namespace WebAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sections", x => x.SectionId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserSanctions",
-                columns: table => new
-                {
-                    UserSanctionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    SanctionName = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserSanctions", x => x.UserSanctionId);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,28 +113,30 @@ namespace WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sanctions",
+                name: "UserSanctions",
                 columns: table => new
                 {
-                    SanctionId = table.Column<int>(type: "int", nullable: false)
+                    UserSanctionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SanctionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StudentModelStudentId = table.Column<int>(type: "int", nullable: true)
+                    SanctionId = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sanctions", x => x.SanctionId);
+                    table.PrimaryKey("PK_UserSanctions", x => x.UserSanctionId);
                     table.ForeignKey(
-                        name: "FK_Sanctions_Students_StudentModelStudentId",
-                        column: x => x.StudentModelStudentId,
+                        name: "FK_UserSanctions_Sanctions_SanctionId",
+                        column: x => x.SanctionId,
+                        principalTable: "Sanctions",
+                        principalColumn: "SanctionId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserSanctions_Students_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "Students",
-                        principalColumn: "StudentId");
+                        principalColumn: "StudentId",
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sanctions_StudentModelStudentId",
-                table: "Sanctions",
-                column: "StudentModelStudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_CourseId",
@@ -151,6 +152,16 @@ namespace WebAPI.Migrations
                 name: "IX_Students_SectionId",
                 table: "Students",
                 column: "SectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSanctions_SanctionId",
+                table: "UserSanctions",
+                column: "SanctionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSanctions_StudentId",
+                table: "UserSanctions",
+                column: "StudentId");
         }
 
         /// <inheritdoc />
@@ -160,10 +171,10 @@ namespace WebAPI.Migrations
                 name: "Accounts");
 
             migrationBuilder.DropTable(
-                name: "Sanctions");
+                name: "UserSanctions");
 
             migrationBuilder.DropTable(
-                name: "UserSanctions");
+                name: "Sanctions");
 
             migrationBuilder.DropTable(
                 name: "Students");

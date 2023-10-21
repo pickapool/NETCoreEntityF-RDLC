@@ -9,7 +9,11 @@ namespace WebAPI.Models
     public class UserSanctionModel
     {
         public int UserSanctionId { get; set; }
-        public int UserId { get; set; }
-        public string SanctionName { get; set; } = string.Empty;
+        public int SanctionId { get; set; }
+        
+        public int StudentId { get; set; }
+        [ForeignKey("StudentId")]
+        public StudentModel Student { get; set; } = new();
+        public SanctionModel Sanction { get; set; } = new();
     }
 }

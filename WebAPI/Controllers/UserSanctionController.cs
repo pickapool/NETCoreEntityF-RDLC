@@ -67,7 +67,9 @@ namespace WebAPI.Controllers
         [Route("AddUserSanction")]
         public async Task<ActionResult<UserSanctionModel>> AddUserSanction(UserSanctionModel dept)
         {
-            _context.UserSanctions.Add(dept);
+            //_context.UserSanctions.Add(dept);
+            _context.Entry(dept).State = EntityState.Added;
+            _context.Entry(dept).Reference(b => b.Sanction).IsModified = false;
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetUserSanction", new { id = dept.UserSanctionId }, dept);
         }
