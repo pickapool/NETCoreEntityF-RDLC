@@ -20,7 +20,9 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<IEnumerable<UserSanctionModel>>> GetUserSanctions(FilterParameter param)
         {
             //.Include(a => a.Information)
-            return await _context.UserSanctions.ToListAsync();
+            return await _context.UserSanctions
+                .Include( s => s.Sanction).Where( s => s.StudentId == param.StudentId)
+                .ToListAsync();
         }
         [HttpGet]
         [Route("GetUserSanction/{id}")]
@@ -28,7 +30,9 @@ namespace WebAPI.Controllers
         {
             //  .Include( a => a.Information)
             //  
-            var dept = await _context.UserSanctions.FirstOrDefaultAsync(u => u.UserSanctionId == id);
+            var dept = await _context.UserSanctions
+                .Include(s => s.Sanction)
+                .FirstOrDefaultAsync(u => u.UserSanctionId == id);
             if (dept == null)
             {
                 return NotFound();
@@ -70,6 +74,8 @@ namespace WebAPI.Controllers
             //_context.UserSanctions.Add(dept);
             _context.Entry(dept).State = EntityState.Added;
             _context.Entry(dept).Reference(b => b.Sanction).IsModified = false;
+            //Server side date stamp
+            dept.DateRecorded = DateTime.Now;
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetUserSanction", new { id = dept.UserSanctionId }, dept);
         }

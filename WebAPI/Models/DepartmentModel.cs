@@ -10,5 +10,6 @@ namespace WebAPI.Models
     {
         public int DepartmentId { get; set; }
         public string DepartmentName { get; set; } = string.Empty;
+        public List<DepartmentCourseModel> Courses { get; set; } = new();
     }
 }

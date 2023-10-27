@@ -20,11 +20,45 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<IEnumerable<StudentModel>>> GetStudents(FilterParameter param)
         {
             //.Include(a => a.Information)
-            return await _context.Students
+            List<StudentModel> students =  await _context.Students
                 .Include( c => c.Course)
                 .Include( d => d.Department)
                 .Include( us => us.Sanctions).ThenInclude(s => s.Sanction)
                 .Include( s => s.Section).ToListAsync();
+
+            if (param.IsDate)
+            {
+                students = students
+                    .Where(s => 
+                        s.Sanctions.All(sa => 
+                            sa.DateRecorded >= param.DateFrom && sa.DateRecorded <= param.DateTo.AddDays(1)
+                            )
+                        )
+                    .ToList();
+            }
+            if (param.IsCourse)
+            {
+                students = students.Where(s => param.Courses.Any(c => c.CourseId == s.CourseId)).ToList();
+            }
+            if (param.IsDepartment)
+            {
+                students = students.Where(s => param.Departments.Any(c => c.DepartmentId == s.DepartmentId)).ToList();
+            }
+            if(param.IsSection)
+            {
+                students = students.Where(s => param.Sections.Any(c => c.SectionId == s.SectionId)).ToList();
+            }
+            if (param.IsYear)
+            {
+                students = students.Where(s => param.YearLevels.Any(c => c == s.YearLevel)).ToList();
+            }
+            if (param.IsSanction)
+            {
+                students = students.
+                    Where(s => param.Sanctions.Any( sanc => s.Sanctions.Any( s => s.SanctionId == sanc.SanctionId)))
+                    .ToList();
+            }
+            return students;
         }
         [HttpGet]
         [Route("GetStudent/{id}")]

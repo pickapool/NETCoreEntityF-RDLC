@@ -8,6 +8,7 @@ namespace WebAPI.Models
     public class StudentModel
     {
         //Error when getting list dont add not mapped
+        public string IdNo { get; set; } = string.Empty;
         public int StudentId {  get; set; }
         public string StudentName { get; set; } = string.Empty;
         public int CourseId { get; set; }

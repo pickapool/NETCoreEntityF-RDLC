@@ -15,6 +15,7 @@ namespace WebAPI.DBContexts
         public DbSet<SectionModel> Sections { get; set; }
         public DbSet<StudentModel> Students { get; set; }
         public DbSet<UserSanctionModel> UserSanctions { get; set; }
+        public DbSet<DepartmentCourseModel> DepartmentCourses { get; set; }
         public DatabaseContext() { 
             
         }
@@ -31,6 +32,7 @@ namespace WebAPI.DBContexts
             modelBuilder.Entity<SectionModel>().ToTable("Sections");
             modelBuilder.Entity<StudentModel>().ToTable("Students");
             modelBuilder.Entity<UserSanctionModel>().ToTable("UserSanctions");
+            modelBuilder.Entity<DepartmentCourseModel>().ToTable("DepartmentCourses");
 
             // modelBuilder.Entity<User_Account_Information>().ToTable("User_Account_Information");
         }

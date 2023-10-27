@@ -10,8 +10,8 @@ namespace WebAPI.Models
     {
         public int UserSanctionId { get; set; }
         public int SanctionId { get; set; }
-        
         public int StudentId { get; set; }
+        public DateTime DateRecorded { get; set; }
         [ForeignKey("StudentId")]
         public StudentModel Student { get; set; } = new();
         public SanctionModel Sanction { get; set; } = new();
