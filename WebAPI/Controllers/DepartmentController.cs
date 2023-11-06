@@ -20,7 +20,9 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<IEnumerable<DepartmentModel>>> GetDepartments(FilterParameter param)
         {
             //.Include(a => a.Information)
-            return await _context.Departments.ToListAsync();
+            return await _context.Departments
+                .Include( c => c.Courses).ThenInclude( c1 => c1.Course)
+                .ToListAsync();
         }
         [HttpGet]
         [Route("GetDepartment/{id}")]
@@ -28,7 +30,9 @@ namespace WebAPI.Controllers
         {
             //  .Include( a => a.Information)
             //  
-            var dept = await _context.Departments.FirstOrDefaultAsync(u => u.DepartmentId == id);
+            var dept = await _context.Departments
+                .Include(c => c.Courses).ThenInclude(c1 => c1.Course)
+                .FirstOrDefaultAsync(u => u.DepartmentId == id);
             if (dept == null)
             {
                 return NotFound();

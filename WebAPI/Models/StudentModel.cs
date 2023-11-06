@@ -14,6 +14,7 @@ namespace WebAPI.Models
         public int CourseId { get; set; }
         public int DepartmentId { get; set; }
         public int SectionId { get; set; }
+        public string QRCode { get; set; } = string.Empty;
        //[NotMapped]
         public CourseModel Course { get; set; } = new CourseModel();
        //[NotMapped]

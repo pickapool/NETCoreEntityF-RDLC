@@ -115,6 +115,7 @@ namespace WebAPI.Migrations
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
                     SectionId = table.Column<int>(type: "int", nullable: false),
+                    QRCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     YearLevel = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

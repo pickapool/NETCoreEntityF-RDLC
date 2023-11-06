@@ -21,16 +21,21 @@ namespace WebAPI.Controllers
         {
             //.Include(a => a.Information)
             return await _context.DepartmentCourses
-                .Include( c => c.Course)
+                .Include(d => d.Department)
+                .Include(c => c.Course)
+                .Where(s => s.DepartmentId == param.DepartmentId)
                 .ToListAsync();
         }
         [HttpGet]
         [Route("GetDepartmentCourse/{id}")]
-        public async Task<ActionResult<DepartmentCourseModel>> GetDepartmentCourse(int id)
+        public async Task<ActionResult<List<DepartmentCourseModel>>> GetDepartmentCourse(int id)
         {
             //  .Include( a => a.Information)
             //  
-            var dept = await _context.DepartmentCourses.FirstOrDefaultAsync(u => u.DepartmentCourseId == id);
+            var dept = await _context.DepartmentCourses
+                .Include(d => d.Department)
+                .Include(c => c.Course)
+                .Where(u => u.DepartmentCourseId == id).ToListAsync();
             if (dept == null)
             {
                 return NotFound();
@@ -69,8 +74,13 @@ namespace WebAPI.Controllers
         [Route("AddDepartmentCourse")]
         public async Task<ActionResult<DepartmentCourseModel>> AddDepartmentCourse(DepartmentCourseModel dept)
         {
-            _context.DepartmentCourses.Add(dept);
+  
+            _context.Entry(dept).State = EntityState.Added;
+            _context.Entry(dept).Reference(b => b.Course).IsModified = false;
+            _context.Entry(dept).Reference(b => b.Department).IsModified = false;
+
             await _context.SaveChangesAsync();
+
             return CreatedAtAction("GetDepartmentCourse", new { id = dept.DepartmentCourseId }, dept);
         }
         private bool DepartmentCourseExists(int id)

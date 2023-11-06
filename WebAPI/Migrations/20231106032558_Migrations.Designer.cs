@@ -12,7 +12,7 @@ using WebAPI.DBContexts;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20231027010153_Migrations")]
+    [Migration("20231106032558_Migrations")]
     partial class Migrations
     {
         /// <inheritdoc />
@@ -156,6 +156,10 @@ namespace WebAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("IdNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QRCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

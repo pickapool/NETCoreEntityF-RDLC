@@ -16,5 +16,6 @@
         public bool IsSection { get; set; }
         public List<SectionModel> Sections { get; set; } = new();
         public int StudentId { get; set; }
+        public int DepartmentId { get; set; }
     }
 }
