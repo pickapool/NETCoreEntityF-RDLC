@@ -33,15 +33,34 @@ namespace WebAPI.Controllers
                     var result = IronBarCode.BarcodeReader.QuicklyReadOneBarcode(barcodeImage);
                     if (result == null || result.Value == null)
                     {
-                        return $"{DateTime.Now} : Barcode is Not Detected";
+                        return "";
                     }
-                    return $"{DateTime.Now} : Barcode is ({result.Value})";
+                    return result.Value;
                 }
             }
             catch (Exception ex)
             {
                 return $"Exception is {ex.Message}";
             }
+        }
+        [HttpGet]
+        [Route("GetStudentByQR/{qr}")]
+        public async Task<ActionResult<StudentModel>> GetStudentByQR(string qr)
+        {
+            return await _context.Students
+                .Include(c => c.Course)
+                .Include(d => d.Department)
+                .Include(us => us.Sanctions).ThenInclude(s => s.Sanction)
+                .Include(s => s.Section).FirstAsync(s => s.QRCode == qr);
+        }
+        [HttpGet]
+        [Route("AndroidGetStudentByQR/{qr}")]
+        public async Task<ActionResult<StudentModel>> AndroidGetStudentByQR(string qr)
+        {
+            return await _context.Students
+                .Include(c => c.Course)
+                .Include(d => d.Department)
+                .Include(s => s.Section).FirstAsync(s => s.QRCode == qr);
         }
     }
 }

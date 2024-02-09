@@ -23,6 +23,13 @@ namespace WebAPI.Controllers
             return await _context.Sanctions.ToListAsync();
         }
         [HttpGet]
+        [Route("GetList")]
+        public async Task<ActionResult<IEnumerable<SanctionModel>>> Sanctions()
+        {
+            //.Include(a => a.Information)
+            return await _context.Sanctions.ToListAsync();
+        }
+        [HttpGet]
         [Route("GetSanction/{id}")]
         public async Task<ActionResult<SanctionModel>> GetSanction(int id)
         {

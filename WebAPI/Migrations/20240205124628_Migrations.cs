@@ -58,7 +58,8 @@ namespace WebAPI.Migrations
                 {
                     SanctionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SanctionName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    SanctionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -149,7 +150,9 @@ namespace WebAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SanctionId = table.Column<int>(type: "int", nullable: false),
                     StudentId = table.Column<int>(type: "int", nullable: false),
-                    DateRecorded = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateRecorded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

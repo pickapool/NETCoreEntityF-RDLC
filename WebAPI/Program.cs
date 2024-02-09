@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using WebAPI.DBContexts;
@@ -23,6 +24,10 @@ builder.Services.AddCors(policy =>
     .AllowAnyHeader()
     .AllowAnyMethod());
 });
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 209715200; // Set to 200 MB (200 * 1024 * 1024 bytes)
+});
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -40,6 +45,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();
     

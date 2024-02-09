@@ -15,5 +15,8 @@ namespace WebAPI.Models
         [ForeignKey("StudentId")]
         public StudentModel Student { get; set; } = new();
         public SanctionModel Sanction { get; set; } = new();
+        public decimal Amount { get ; set; }
+        public bool IsPaid { get; set; }
+        public byte[] SanctionImage { get; set; } = new byte[] { };
     }
 }

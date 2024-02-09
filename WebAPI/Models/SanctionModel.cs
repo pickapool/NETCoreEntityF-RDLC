@@ -10,5 +10,6 @@ namespace WebAPI.Models
     {
         public int SanctionId { get; set; }
         public string SanctionName { get; set; } = string.Empty;
+        public decimal Amount { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using WebAPI.DBContexts;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20231106032558_Migrations")]
-    partial class Migrations
+    [Migration("20240206060230_Migrations2")]
+    partial class Migrations2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -115,6 +115,9 @@ namespace WebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SanctionId"));
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("SanctionName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -192,11 +195,21 @@ namespace WebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserSanctionId"));
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("DateRecorded")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
                     b.Property<int>("SanctionId")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("SanctionImage")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
