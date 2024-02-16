@@ -11,5 +11,6 @@ namespace WebAPI.Models
         public int CourseId { get; set; }
         public string CourseName { get; set; } = string.Empty;
         public string ShortcutName { get; set; } = string.Empty;
+        public List<StudentModel>? Students { get; set; }
     }
 }

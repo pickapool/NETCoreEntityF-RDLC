@@ -24,6 +24,107 @@ namespace WebAPI.Controllers
                 .Include( c => c.Courses).ThenInclude( c1 => c1.Course)
                 .ToListAsync();
         }
+        [HttpPost]
+        [Route("CollegesMasterList")]
+        public async Task<ActionResult<List<DepartmentModel>>> CollegesMasterList(FilterParameter param)
+        {
+            IEnumerable<DepartmentModel> result = new List<DepartmentModel>();
+            if (param.DepartmentId == 0)
+            {
+                result = await _context.Departments
+                   .Include(c => c.Courses)
+                        .ThenInclude(c1 => c1.Course)
+                        .ThenInclude(e => e.Students)
+                        .ThenInclude(e => e.Sanctions)
+                        .ThenInclude(e => e.Sanction)
+                    .Include(c => c.Courses)
+                        .ThenInclude(c1 => c1.Course)
+                        .ThenInclude(e => e.Students)
+                        .ThenInclude(e => e.Sanctions)
+                        .ThenInclude(e => e.Sanction)
+                    .Include(c => c.Courses)
+                        .ThenInclude(c1 => c1.Course)
+                        .ThenInclude(e => e.Students)
+                        .ThenInclude(e => e.Section)
+                    .ToListAsync();
+            }
+            else
+            {
+                result = await _context.Departments.Where(e => e.DepartmentId == param.DepartmentId)
+                   .Include(c => c.Courses)
+                        .ThenInclude(c1 => c1.Course)
+                        .ThenInclude(e => e.Students)
+                        .ThenInclude(e => e.Sanctions)
+                        .ThenInclude(e => e.Sanction)
+                    .Include(c => c.Courses)
+                        .ThenInclude(c1 => c1.Course)
+                        .ThenInclude(e => e.Students)
+                        .ThenInclude(e => e.Sanctions)
+                        .ThenInclude(e => e.Sanction)
+                    .Include(c => c.Courses)
+                        .ThenInclude(c1 => c1.Course)
+                        .ThenInclude(e => e.Students)
+                        .ThenInclude(e => e.Section)
+                    .ToListAsync();
+                return result.ToList();
+            }
+            if (param.IsDate)
+            {
+                result = result
+                .Where(e => e.Courses
+                    .Any(c => c.Course.Students
+                        .Any(s => s.Sanctions
+                            .Any(sanction => sanction.DateRecorded >= param.DateFrom && sanction.DateRecorded <= param.DateTo.AddDays(1)))))
+                .ToList();
+            }
+            if (param.IsCourse)
+            {
+                result = result.Where(e => e.Courses.Any(e => param.Courses.Any(c => c.CourseId == e.CourseId)));
+            }
+            if (param.IsDepartment)
+            {
+                result = result.Where(e => param.Departments.Any(d => d.DepartmentId == e.DepartmentId));
+            }
+            if (param.IsSection)
+            {
+                result = result
+                .Where(e => e.Courses
+                    .Any(c => c.Course.Students
+                        .Any(s => param.Sections.Any(e => e.SectionId == s.SectionId))));
+            }
+            if (param.IsYear)
+            {
+                result = result
+                .Where(e => e.Courses
+                    .Any(c => c.Course.Students
+                        .Any(s => param.YearLevels.Any(e => e == s.YearLevel))));
+            }
+            if (param.IsSanction)
+            {
+                result.ToList().ForEach(department =>
+                {
+                    department.Courses.ForEach(course =>
+                    {
+                        course.Course.Students.ForEach(student =>
+                        {
+                            for (int i = student.Sanctions.Count - 1; i >= 0; i--)
+                            {
+                                foreach (SanctionModel san in param.Sanctions)
+                                {
+                                    if (student.Sanctions[i].SanctionId != san.SanctionId)
+                                    {
+                                        student.Sanctions.RemoveAt(i);
+                                    }
+                                }
+                            }
+                        });
+                    });
+                });
+            }
+        
+            result.ToList().ForEach(e => e.Courses.ForEach(e => e.Course.Students.ForEach(e => e.Sanctions.ForEach(e => e.SanctionImage = new byte[] { })))); 
+            return result.ToList();
+        }
         [HttpGet]
         [Route("GetDepartment/{id}")]
         public async Task<ActionResult<DepartmentModel>> GetDepartment(int id)

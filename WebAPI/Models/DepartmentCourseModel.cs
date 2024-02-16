@@ -11,7 +11,7 @@ namespace WebAPI.Models
         public int DepartmentId { get; set; }
         public int CourseId { get; set; }
         [ForeignKey("CourseId")]
-        public CourseModel Course { get; set; } = new();
+        public CourseModel? Course { get; set; } = new();
         [ForeignKey("DepartmentId")]
         public DepartmentModel? Department { get; set; } = new();
     }

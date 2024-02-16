@@ -8,6 +8,8 @@ namespace WebAPI.Models
     [PrimaryKey("UserSanctionId")]
     public class UserSanctionModel
     {
+        public UserSanctionModel() { }
+
         public int UserSanctionId { get; set; }
         public int SanctionId { get; set; }
         public int StudentId { get; set; }

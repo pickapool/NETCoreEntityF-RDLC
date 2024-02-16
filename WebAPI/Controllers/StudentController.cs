@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
             List<StudentModel> students =  await _context.Students
                 .Include( c => c.Course)
                 .Include( d => d.Department)
-                .Include( us => us.Sanctions).ThenInclude(s => s.Sanction)
+                //.Include( us => us.Sanctions).ThenInclude(s => s.Sanction)
                 .Include( s => s.Section).ToListAsync();
 
             if (param.IsDate)

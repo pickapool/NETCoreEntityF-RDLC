@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Reports\Report1.rdlc">
+    <EmbeddedResource Include="Reports\MasterListReport.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -40,17 +40,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ReportDataSets\DataSet1.Designer.cs">
+    <Compile Update="ReportDataSets\masterlisdataset.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>DataSet1.xsd</DependentUpon>
+      <DependentUpon>masterlisdataset.xsd</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ReportDataSets\DataSet1.xsd">
+    <None Update="ReportDataSets\masterlisdataset.xsd">
       <SubType>Designer</SubType>
-      <LastGenOutput>DataSet1.Designer.cs</LastGenOutput>
+      <LastGenOutput>masterlisdataset.Designer.cs</LastGenOutput>
       <Generator>MSDataSetGenerator</Generator>
     </None>
   </ItemGroup>
