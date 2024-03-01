@@ -70,12 +70,18 @@ namespace WebAPI.Controllers
             }
             if (param.IsDate)
             {
-                result = result
-                .Where(e => e.Courses
-                    .Any(c => c.Course.Students
-                        .Any(s => s.Sanctions
-                            .Any(sanction => sanction.DateRecorded >= param.DateFrom && sanction.DateRecorded <= param.DateTo.AddDays(1)))))
-                .ToList();
+                result.ToList().ForEach(department =>
+                {
+                    department.Courses.ForEach(course =>
+                    {
+                        course.Course.Students.ForEach(student =>
+                        {
+                            student.Sanctions = student.Sanctions
+                                .Where(san => param.Sanctions.Any(paramSan => san.DateRecorded >= param.DateFrom && san.DateRecorded <= param.DateTo.AddDays(1)))
+                                .ToList();
+                        });
+                    });
+                });
             }
             if (param.IsCourse)
             {
@@ -87,17 +93,27 @@ namespace WebAPI.Controllers
             }
             if (param.IsSection)
             {
-                result = result
-                .Where(e => e.Courses
-                    .Any(c => c.Course.Students
-                        .Any(s => param.Sections.Any(e => e.SectionId == s.SectionId))));
+                result.ToList().ForEach(department =>
+                {
+                    department.Courses.ForEach(course =>
+                    {
+                        course.Course.Students = course.Course.Students
+                            .Where(student => param.Sections.Any(sec => sec.SectionId == student.SectionId))
+                            .ToList();
+                    });
+                });
             }
             if (param.IsYear)
             {
-                result = result
-                .Where(e => e.Courses
-                    .Any(c => c.Course.Students
-                        .Any(s => param.YearLevels.Any(e => e == s.YearLevel))));
+                result.ToList().ForEach(department =>
+                {
+                    department.Courses.ForEach(course =>
+                    {
+                        course.Course.Students = course.Course.Students
+                            .Where(student => param.YearLevels.Any(sec => sec == student.YearLevel))
+                            .ToList();
+                    });
+                });
             }
             if (param.IsSanction)
             {
@@ -107,16 +123,9 @@ namespace WebAPI.Controllers
                     {
                         course.Course.Students.ForEach(student =>
                         {
-                            for (int i = student.Sanctions.Count - 1; i >= 0; i--)
-                            {
-                                foreach (SanctionModel san in param.Sanctions)
-                                {
-                                    if (student.Sanctions[i].SanctionId != san.SanctionId)
-                                    {
-                                        student.Sanctions.RemoveAt(i);
-                                    }
-                                }
-                            }
+                            student.Sanctions = student.Sanctions
+                                .Where(san => param.Sanctions.Any(paramSan => paramSan.SanctionId == san.SanctionId))
+                                .ToList();
                         });
                     });
                 });
