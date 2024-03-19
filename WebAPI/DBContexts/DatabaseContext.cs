@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Reflection.Metadata;
 using WebAPI.Models;
 
 namespace WebAPI.DBContexts
