@@ -129,8 +129,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Departmentname.Value + " (Total " +
+                                  <Value>=Fields!Departmentname.Value + " (Paid " +
 CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmount.Value))), 2))
++
+")  (Unpaid " +
+CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmount.Value))), 2))
 +
 ")"</Value>
                                   <Style>
@@ -222,8 +225,11 @@ IIF(Fields!YearLevel.Value = 1, "1st Year" ,
 IIF(Fields!YearLevel.Value = 2, "2nd Year" , 
 IIF(Fields!YearLevel.Value = 3, "3rd Year" , 
 IIF(Fields!YearLevel.Value = 4, "4th Year" , "5th Year"))))
-+ " (Total " +
++ " (Paid " +
 CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmount.Value))), 2))
++
+") (Unpaid " +
+CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmount.Value))), 2))
 +
 ")"</Value>
                                   <Style>
@@ -268,8 +274,11 @@ CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmou
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="Section - " +Fields!SectionName.Value + " (Total " +
+                                  <Value>="Section - " +Fields!SectionName.Value + " (Paid - " +
 CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmount.Value))), 2))
++
+") (Unpaid - " +
+CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmount.Value))), 2))
 +
 ")"</Value>
                                   <Style>
@@ -500,7 +509,7 @@ CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmou
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>TOTAL</Value>
+                                  <Value>Paid</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -602,7 +611,152 @@ CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmou
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(IIf(Fields!IsPaid.Value = true, 0, Val(Fields!SanctionAmount.Value)))</Value>
+                                  <Value>=Sum(IIf(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmount.Value)))</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <Format>#,0.00;(#,0.00)</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Amount1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Unpaid</Value>
+                                  <Style>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox2</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox7">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox7</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Amount2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(IIf(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmount.Value)))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -717,8 +871,11 @@ CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmou
                               <Paragraph>
                                 <TextRuns>
                                   <TextRun>
-                                    <Value>=Fields!CourseName.Value + " (Total " +
+                                    <Value>=Fields!CourseName.Value + " (Paid " +
 Cstr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmount.Value))), 2))
++
+") (Unpaid " +
+Cstr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmount.Value))), 2))
 +
 ")"</Value>
                                     <Style>
@@ -744,6 +901,7 @@ Cstr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmou
                               <PaddingBottom>2pt</PaddingBottom>
                             </Style>
                           </Textbox>
+                          <rd:Selected>true</rd:Selected>
                         </CellContents>
                       </TablixHeader>
                       <TablixMembers>
@@ -801,6 +959,9 @@ Cstr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmou
                                     <TablixMember>
                                       <KeepWithGroup>Before</KeepWithGroup>
                                     </TablixMember>
+                                    <TablixMember>
+                                      <KeepWithGroup>Before</KeepWithGroup>
+                                    </TablixMember>
                                   </TablixMembers>
                                 </TablixMember>
                               </TablixMembers>
@@ -816,7 +977,7 @@ Cstr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmou
             <DataSetName>masterlist</DataSetName>
             <Top>0.28333in</Top>
             <Left>0.205in</Left>
-            <Height>1.75in</Height>
+            <Height>2in</Height>
             <Width>7.97502in</Width>
             <Style>
               <Border>
@@ -840,7 +1001,7 @@ Cstr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmou
             </Style>
           </Rectangle>
         </ReportItems>
-        <Height>2.03333in</Height>
+        <Height>2.28333in</Height>
         <Style />
       </Body>
       <Width>8.5in</Width>
