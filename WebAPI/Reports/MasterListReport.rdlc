@@ -611,7 +611,7 @@ CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmo
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(IIf(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmount.Value)))</Value>
+                                  <Value>=Sum(IIf(Fields!IsPaid.Value = True, Val(Fields!SanctionAmount.Value), 0))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -756,7 +756,7 @@ CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmo
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(IIf(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmount.Value)))</Value>
+                                  <Value>=Sum(IIf(Fields!IsPaid.Value = false, Val(Fields!SanctionAmount.Value), 0))</Value>
                                   <Style>
                                     <FontSize>9pt</FontSize>
                                     <Format>#,0.00;(#,0.00)</Format>
@@ -783,6 +783,7 @@ CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmo
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -901,7 +902,6 @@ Cstr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmo
                               <PaddingBottom>2pt</PaddingBottom>
                             </Style>
                           </Textbox>
-                          <rd:Selected>true</rd:Selected>
                         </CellContents>
                       </TablixHeader>
                       <TablixMembers>
