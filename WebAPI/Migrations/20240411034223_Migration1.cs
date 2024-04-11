@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Migrations : Migration
+    public partial class Migration1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -152,11 +152,19 @@ namespace WebAPI.Migrations
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     DateRecorded = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsPaid = table.Column<bool>(type: "bit", nullable: false)
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
+                    SanctionImage = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserSanctions", x => x.UserSanctionId);
+                    table.ForeignKey(
+                        name: "FK_UserSanctions_Accounts_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Accounts",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserSanctions_Sanctions_SanctionId",
                         column: x => x.SanctionId,
@@ -205,19 +213,24 @@ namespace WebAPI.Migrations
                 name: "IX_UserSanctions_StudentId",
                 table: "UserSanctions",
                 column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSanctions_UserId",
+                table: "UserSanctions",
+                column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Accounts");
-
-            migrationBuilder.DropTable(
                 name: "DepartmentCourses");
 
             migrationBuilder.DropTable(
                 name: "UserSanctions");
+
+            migrationBuilder.DropTable(
+                name: "Accounts");
 
             migrationBuilder.DropTable(
                 name: "Sanctions");

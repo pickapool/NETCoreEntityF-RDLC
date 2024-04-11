@@ -21,6 +21,7 @@ namespace WebAPI.Controllers
         {
             //.Include(a => a.Information)
             return await _context.UserSanctions
+                .Include( a => a.Account)
                 .Include( s => s.Sanction).Where( s => s.StudentId == param.StudentId)
                 .ToListAsync();
         }
@@ -32,6 +33,7 @@ namespace WebAPI.Controllers
             //  
             var dept = await _context.UserSanctions
                 .Include(s => s.Sanction)
+                .Include(a => a.Account)
                 .FirstOrDefaultAsync(u => u.UserSanctionId == id);
             if (dept == null)
             {
@@ -74,6 +76,8 @@ namespace WebAPI.Controllers
             //_context.UserSanctions.Add(dept);
             _context.Entry(dept).State = EntityState.Added;
             _context.Entry(dept).Reference(b => b.Sanction).IsModified = false;
+            _context.Entry(dept).Reference(b => b.Account).IsModified = false;
+
             //Server side date stamp
             dept.DateRecorded = DateTime.Now;
             await _context.SaveChangesAsync();

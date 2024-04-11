@@ -20,5 +20,8 @@ namespace WebAPI.Models
         public decimal Amount { get ; set; }
         public bool IsPaid { get; set; }
         public byte[] SanctionImage { get; set; } = new byte[] { };
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public AccountModel Account { get; set; } = new();
     }
 }

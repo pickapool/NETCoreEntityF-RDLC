@@ -12,8 +12,8 @@ using WebAPI.DBContexts;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240206060230_Migrations2")]
-    partial class Migrations2
+    [Migration("20240411034223_Migration1")]
+    partial class Migration1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -214,11 +214,16 @@ namespace WebAPI.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("UserSanctionId");
 
                     b.HasIndex("SanctionId");
 
                     b.HasIndex("StudentId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserSanctions", (string)null);
                 });
@@ -245,7 +250,7 @@ namespace WebAPI.Migrations
             modelBuilder.Entity("WebAPI.Models.StudentModel", b =>
                 {
                     b.HasOne("WebAPI.Models.CourseModel", "Course")
-                        .WithMany()
+                        .WithMany("Students")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -283,9 +288,22 @@ namespace WebAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebAPI.Models.AccountModel", "Account")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
                     b.Navigation("Sanction");
 
                     b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("WebAPI.Models.CourseModel", b =>
+                {
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("WebAPI.Models.DepartmentModel", b =>
