@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.DBContexts;
 
@@ -11,9 +12,11 @@ using WebAPI.DBContexts;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240413014205_Migration1")]
+    partial class Migration1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,6 +205,7 @@ namespace WebAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int?>("MarkAsPaidById")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("SanctionId")
@@ -281,7 +285,8 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.Models.AccountModel", "MarkAsPaidByAccount")
                         .WithMany()
                         .HasForeignKey("MarkAsPaidById")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("WebAPI.Models.SanctionModel", "Sanction")
                         .WithMany()

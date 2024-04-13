@@ -154,11 +154,18 @@ namespace WebAPI.Migrations
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsPaid = table.Column<bool>(type: "bit", nullable: false),
                     SanctionImage = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    MarkAsPaidById = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserSanctions", x => x.UserSanctionId);
+                    table.ForeignKey(
+                        name: "FK_UserSanctions_Accounts_MarkAsPaidById",
+                        column: x => x.MarkAsPaidById,
+                        principalTable: "Accounts",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UserSanctions_Accounts_UserId",
                         column: x => x.UserId,
@@ -203,6 +210,11 @@ namespace WebAPI.Migrations
                 name: "IX_Students_SectionId",
                 table: "Students",
                 column: "SectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSanctions_MarkAsPaidById",
+                table: "UserSanctions",
+                column: "MarkAsPaidById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserSanctions_SanctionId",

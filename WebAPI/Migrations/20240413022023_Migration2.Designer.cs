@@ -12,8 +12,8 @@ using WebAPI.DBContexts;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240411034223_Migration1")]
-    partial class Migration1
+    [Migration("20240413022023_Migration2")]
+    partial class Migration2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -204,6 +204,9 @@ namespace WebAPI.Migrations
                     b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("MarkAsPaidById")
+                        .HasColumnType("int");
+
                     b.Property<int>("SanctionId")
                         .HasColumnType("int");
 
@@ -218,6 +221,8 @@ namespace WebAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("UserSanctionId");
+
+                    b.HasIndex("MarkAsPaidById");
 
                     b.HasIndex("SanctionId");
 
@@ -276,6 +281,11 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Models.UserSanctionModel", b =>
                 {
+                    b.HasOne("WebAPI.Models.AccountModel", "MarkAsPaidByAccount")
+                        .WithMany()
+                        .HasForeignKey("MarkAsPaidById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("WebAPI.Models.SanctionModel", "Sanction")
                         .WithMany()
                         .HasForeignKey("SanctionId")
@@ -295,6 +305,8 @@ namespace WebAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Account");
+
+                    b.Navigation("MarkAsPaidByAccount");
 
                     b.Navigation("Sanction");
 

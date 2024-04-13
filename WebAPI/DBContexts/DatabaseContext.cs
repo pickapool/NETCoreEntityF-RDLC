@@ -31,6 +31,22 @@ namespace WebAPI.DBContexts
             modelBuilder.Entity<UserSanctionModel>().ToTable("UserSanctions");
             modelBuilder.Entity<DepartmentCourseModel>().ToTable("DepartmentCourses");
 
+            modelBuilder.Entity<UserSanctionModel>()
+            .Property(u => u.Amount)
+            .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<SanctionModel>()
+                .Property(s => s.Amount)
+                .HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<UserSanctionModel>()
+                .HasOne(us => us.MarkAsPaidByAccount)
+                .WithMany()
+                .HasForeignKey(us => us.MarkAsPaidById)
+                .HasPrincipalKey(am => am.UserId)  // Use Principal Key of AccountModel
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<UserSanctionModel>()
+                .Property(us => us.MarkAsPaidById)
+                .IsRequired(false);
             // modelBuilder.Entity<User_Account_Information>().ToTable("User_Account_Information");
         }
     }
