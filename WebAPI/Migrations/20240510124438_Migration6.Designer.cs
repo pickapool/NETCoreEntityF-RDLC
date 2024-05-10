@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.DBContexts;
 
@@ -11,9 +12,11 @@ using WebAPI.DBContexts;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240510124438_Migration6")]
+    partial class Migration6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,14 +120,11 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("FacialRecognitionId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("EventAttendanceId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("FacialRecognitionId");
 
                     b.ToTable("EventAttendances", (string)null);
                 });
@@ -202,7 +202,7 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("FacialRecognitionId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("IdNo")
                         .IsRequired()
@@ -302,7 +302,10 @@ namespace WebAPI.Migrations
                 {
                     b.HasOne("WebAPI.Models.StudentModel", "Student")
                         .WithMany()
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("FacialRecognitionId")
+                        .HasPrincipalKey("FacialRecognitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Student");
                 });

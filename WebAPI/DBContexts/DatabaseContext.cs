@@ -13,6 +13,8 @@ namespace WebAPI.DBContexts
         public DbSet<StudentModel> Students { get; set; }
         public DbSet<UserSanctionModel> UserSanctions { get; set; }
         public DbSet<DepartmentCourseModel> DepartmentCourses { get; set; }
+        public DbSet<EventModel> Events { get; set; }
+        public DbSet<EventAttendanceModel> EventAttendances { get; set; }
         public DatabaseContext() { 
             
         }
@@ -30,6 +32,8 @@ namespace WebAPI.DBContexts
             modelBuilder.Entity<StudentModel>().ToTable("Students");
             modelBuilder.Entity<UserSanctionModel>().ToTable("UserSanctions");
             modelBuilder.Entity<DepartmentCourseModel>().ToTable("DepartmentCourses");
+            modelBuilder.Entity<EventModel>().ToTable("Events");
+            modelBuilder.Entity<EventAttendanceModel>().ToTable("EventAttendances");
 
             modelBuilder.Entity<UserSanctionModel>()
             .Property(u => u.Amount)

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPI.DBContexts;
 
@@ -11,9 +12,11 @@ using WebAPI.DBContexts;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240510151217_Migration12")]
+    partial class Migration12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,11 +123,10 @@ namespace WebAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("StudentId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("EventAttendanceId");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("EventAttendances", (string)null);
                 });
@@ -296,15 +298,6 @@ namespace WebAPI.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Department");
-                });
-
-            modelBuilder.Entity("WebAPI.Models.EventAttendanceModel", b =>
-                {
-                    b.HasOne("WebAPI.Models.StudentModel", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("WebAPI.Models.StudentModel", b =>

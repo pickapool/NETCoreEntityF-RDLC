@@ -130,10 +130,10 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!Departmentname.Value + " (Paid " +
-CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmount.Value))), 2))
+CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, Val(Fields!SanctionAmount.Value),0 )), 2))
 +
 ")  (Unpaid " +
-CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmount.Value))), 2))
+CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False,  Val(Fields!SanctionAmount.Value),0)), 2))
 +
 ")"</Value>
                                   <Style>
@@ -226,10 +226,10 @@ IIF(Fields!YearLevel.Value = 2, "2nd Year" ,
 IIF(Fields!YearLevel.Value = 3, "3rd Year" , 
 IIF(Fields!YearLevel.Value = 4, "4th Year" , "5th Year"))))
 + " (Paid " +
-CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmount.Value))), 2))
+CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, Val(Fields!SanctionAmount.Value), 0)), 2))
 +
 ") (Unpaid " +
-CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmount.Value))), 2))
+CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, Val(Fields!SanctionAmount.Value), 0)), 2))
 +
 ")"</Value>
                                   <Style>
@@ -275,10 +275,10 @@ CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmo
                               <TextRuns>
                                 <TextRun>
                                   <Value>="Section - " +Fields!SectionName.Value + " (Paid - " +
-CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, 0, Val(Fields!SanctionAmount.Value))), 2))
+CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = True, Val(Fields!SanctionAmount.Value), 0)), 2))
 +
 ") (Unpaid - " +
-CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmount.Value))), 2))
+CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, Val(Fields!SanctionAmount.Value),0 )), 2))
 +
 ")"</Value>
                                   <Style>
@@ -302,6 +302,7 @@ CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmo
                           </Style>
                         </Textbox>
                         <ColSpan>4</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -783,7 +784,6 @@ CStr(FormatNumber(Sum(Iif(Fields!IsPaid.Value = False, 0, Val(Fields!SanctionAmo
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>

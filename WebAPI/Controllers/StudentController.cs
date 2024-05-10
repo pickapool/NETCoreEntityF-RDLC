@@ -77,6 +77,22 @@ namespace WebAPI.Controllers
             }
             return dept;
         }
+        [HttpGet]
+        [Route("GetStudentByFace/{face}")]
+        public async Task<ActionResult<StudentModel>> GetStudentByFace(string face)
+        {
+            //  .Include( a => a.Information)
+            //  
+            var dept = await _context.Students
+                .Include(c => c.Course)
+                .Include(d => d.Department)
+                .Include(s => s.Section).FirstOrDefaultAsync(u => u.FacialRecognitionId == face);
+            if (dept == null)
+            {
+                return NotFound();
+            }
+            return dept;
+        }
         [HttpPut]
         [Route("UpdateStudent/{id}")]
         public async Task<ActionResult<StudentModel>> UpdateStudent(int id, StudentModel dept)

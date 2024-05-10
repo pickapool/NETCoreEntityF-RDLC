@@ -6,29 +6,29 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    [Route("Event/")]
+    [Route("Section/")]
     [ApiController]
-    public class EventController : ControllerBase
+    public class SectionController : ControllerBase
     {
         private readonly DatabaseContext _context; 
-        public EventController(DatabaseContext context)
+        public SectionController(DatabaseContext context)
         {
             _context = context;
         }
         [HttpPost]
         [Route("List")]
-        public async Task<ActionResult<IEnumerable<EventModel>>> GetEvents(FilterParameter param)
+        public async Task<ActionResult<IEnumerable<SectionModel>>> GetSections(FilterParameter param)
         {
             //.Include(a => a.Information)
-            return await _context.Events.ToListAsync();
+            return await _context.Sections.ToListAsync();
         }
         [HttpGet]
-        [Route("GetEvent/{id}")]
-        public async Task<ActionResult<EventModel>> GetEvent(int id)
+        [Route("GetSection/{id}")]
+        public async Task<ActionResult<SectionModel>> GetSection(int id)
         {
             //  .Include( a => a.Information)
             //  
-            var dept = await _context.Events.FirstOrDefaultAsync(u => u.EventId == id);
+            var dept = await _context.Sections.FirstOrDefaultAsync(u => u.SectionId == id);
             if (dept == null)
             {
                 return NotFound();
@@ -36,10 +36,10 @@ namespace WebAPI.Controllers
             return dept;
         }
         [HttpPut]
-        [Route("UpdateEvent/{id}")]
-        public async Task<ActionResult<EventModel>> UpdateEvent(int id, EventModel dept)
+        [Route("UpdateSection/{id}")]
+        public async Task<ActionResult<SectionModel>> UpdateSection(int id, SectionModel dept)
         {
-            if (id != dept.EventId)
+            if (id != dept.SectionId)
             {
                 return BadRequest();
             }
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EventExists(id))
+                if (!SectionExists(id))
                 {
                     return NotFound();
                 }
@@ -64,29 +64,29 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("AddEvent")]
-        public async Task<ActionResult<EventModel>> AddEvent(EventModel dept)
+        [Route("AddSection")]
+        public async Task<ActionResult<SectionModel>> AddSection(SectionModel dept)
         {
-            _context.Events.Add(dept);
+            _context.Sections.Add(dept);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetEvent", new { id = dept.EventId }, dept);
+            return CreatedAtAction("GetSection", new { id = dept.SectionId }, dept);
         }
-        private bool EventExists(int id)
+        private bool SectionExists(int id)
         {
-            return _context.Events.Any(e => e.EventId == id);
+            return _context.Sections.Any(e => e.SectionId == id);
         }
         [HttpDelete]
-        [Route("DeleteEvent/{id}")]
-        public async Task<ActionResult<EventModel>> DeleteEvent(int id)
+        [Route("DeleteSection/{id}")]
+        public async Task<ActionResult<SectionModel>> DeleteSection(int id)
         {
-            var dept = await _context.Events.FindAsync(id);
+            var dept = await _context.Sections.FindAsync(id);
             if (dept == null)
             {
                 return NotFound();
             }
-            _context.Events.Remove(dept);
+            _context.Sections.Remove(dept);
             await _context.SaveChangesAsync();
-            return new EventModel();
+            return new SectionModel();
         }
     }
 }
