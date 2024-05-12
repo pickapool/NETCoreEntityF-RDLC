@@ -12,8 +12,8 @@ using WebAPI.DBContexts;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240510153135_Migration14")]
-    partial class Migration14
+    [Migration("20240512012530_Migration1")]
+    partial class Migration1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,6 +126,8 @@ namespace WebAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("EventAttendanceId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("EventAttendances", (string)null);
                 });
@@ -299,6 +301,15 @@ namespace WebAPI.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("WebAPI.Models.EventAttendanceModel", b =>
+                {
+                    b.HasOne("WebAPI.Models.StudentModel", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("WebAPI.Models.StudentModel", b =>
                 {
                     b.HasOne("WebAPI.Models.CourseModel", "Course")
@@ -331,7 +342,8 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.Models.AccountModel", "MarkAsPaidByAccount")
                         .WithMany()
                         .HasForeignKey("MarkAsPaidById")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("WebAPI.Models.SanctionModel", "Sanction")
                         .WithMany()

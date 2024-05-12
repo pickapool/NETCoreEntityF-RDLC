@@ -25,6 +25,6 @@ namespace WebAPI.Models
         public AccountModel Account { get; set; } = new();
         public int? MarkAsPaidById { get; set; }
         [ForeignKey("MarkAsPaidById")]
-        public AccountModel MarkAsPaidByAccount { get; set; } = new();
+        public AccountModel? MarkAsPaidByAccount { get; set; } = new();
     }
 }

@@ -12,8 +12,8 @@ using WebAPI.DBContexts;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240510151805_Migration13")]
-    partial class Migration13
+    [Migration("20240512013309_Migration2")]
+    partial class Migration2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,6 +126,8 @@ namespace WebAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("EventAttendanceId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("EventAttendances", (string)null);
                 });
@@ -242,6 +244,9 @@ namespace WebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserSanctionId"));
 
+                    b.Property<int>("AccountUserId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
@@ -269,13 +274,13 @@ namespace WebAPI.Migrations
 
                     b.HasKey("UserSanctionId");
 
+                    b.HasIndex("AccountUserId");
+
                     b.HasIndex("MarkAsPaidById");
 
                     b.HasIndex("SanctionId");
 
                     b.HasIndex("StudentId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("UserSanctions", (string)null);
                 });
@@ -297,6 +302,15 @@ namespace WebAPI.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("WebAPI.Models.EventAttendanceModel", b =>
+                {
+                    b.HasOne("WebAPI.Models.StudentModel", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("WebAPI.Models.StudentModel", b =>
@@ -328,6 +342,12 @@ namespace WebAPI.Migrations
 
             modelBuilder.Entity("WebAPI.Models.UserSanctionModel", b =>
                 {
+                    b.HasOne("WebAPI.Models.AccountModel", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WebAPI.Models.AccountModel", "MarkAsPaidByAccount")
                         .WithMany()
                         .HasForeignKey("MarkAsPaidById")
@@ -342,12 +362,6 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.Models.StudentModel", "Student")
                         .WithMany("Sanctions")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebAPI.Models.AccountModel", "Account")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -26,6 +26,7 @@ namespace WebAPI.Controllers
                 .Include(s => s.Section)
                 .ToListAsync().Result;
             List<EventAttendanceModel> eventsWithStudents = _context.EventAttendances
+            .Where( e => e.EventId == param.EventId)
             .ToList() // Materialize the event attendance list
             .Select(e =>
             {
