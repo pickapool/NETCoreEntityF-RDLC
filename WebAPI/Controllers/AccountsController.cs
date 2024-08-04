@@ -60,7 +60,8 @@ namespace WebAPI.Controllers
                     throw;
                 }
             }
-            return NoContent();
+            var updatedUser = await _context.Accounts.FindAsync(id);
+            return Ok(updatedUser);
         }
 
         [HttpPost]

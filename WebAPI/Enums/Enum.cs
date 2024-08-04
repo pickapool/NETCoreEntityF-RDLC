@@ -9,5 +9,10 @@
             FourthYear = 4,
             Fifthyear = 5,
         }
+        public enum AccountType : byte
+        {
+            Encoder = 0,
+            Mayor = 1
+        }
     }
 }
