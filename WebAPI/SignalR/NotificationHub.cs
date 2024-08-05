@@ -4,10 +4,10 @@ namespace WebAPI.SignalR
 {
     public class NotificationHub : Hub
     {
-        public async Task Notify(int userId)
+        public async Task Notify(string message)
         {
             // Send the message to all connected clients
-            await Clients.All.SendAsync("Notify", userId);
+            await Clients.All.SendAsync("Notify", message);
         }
     }
 }
