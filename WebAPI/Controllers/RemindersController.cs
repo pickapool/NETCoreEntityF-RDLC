@@ -36,8 +36,8 @@ namespace WebAPI.Controllers
             return user;
         }
         [HttpPut]
-        [Route("UpdateUser/{id}")]
-        public async Task<IActionResult> UpdateUser(int id, RemindersModel user)
+        [Route("UpdateReminder/{id}")]
+        public async Task<IActionResult> UpdateReminder(int id, RemindersModel user)
         {
             if (id != user.ReminderId)
             {
@@ -65,20 +65,20 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("AddUser")]
-        public async Task<ActionResult<RemindersModel>> AddUser(RemindersModel user)
+        [Route("AddReminder")]
+        public async Task<ActionResult<RemindersModel>> AddReminder(RemindersModel user)
         {
             _context.Reminders.Add(user);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetUser", new { id = user.ReminderId }, user);
+            return CreatedAtAction("GetReminder", new { id = user.ReminderId }, user);
         }
         private bool AccountExist(int id)
         {
             return _context.Reminders.Any(e => e.ReminderId == id);
         }
         [HttpDelete]
-        [Route("DeleteUser/{id}")]
-        public async Task<ActionResult<RemindersModel>> DeleteUser(int id)
+        [Route("DeleteReminder/{id}")]
+        public async Task<ActionResult<RemindersModel>> DeleteReminder(int id)
         {
             var movie = await _context.Reminders.FindAsync(id);
             if (movie == null)
