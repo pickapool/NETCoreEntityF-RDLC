@@ -5,7 +5,7 @@
         public enum YearLevel { 
             Firstyear = 0,
             SecondYear = 1,
-            ThridYear = 3,
+            ThirdYear = 3,
             FourthYear = 4,
             Fifthyear = 5,
         }
